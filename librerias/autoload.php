@@ -21,5 +21,4 @@ require_once(dirname(__FILE__) . '/lib/Transaction.php');
 require_once(dirname(__FILE__) . '/lib/RequestHandler.php');
 require_once(dirname(__FILE__) . '/lib/RequestBuilder.php');
 require_once(dirname(__FILE__) . '/lib/DeferredChargeRequestBuilder.php');
-
 require_once(dirname(__FILE__) . '/vendor/nategood/httpful/bootstrap.php');

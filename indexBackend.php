@@ -1,17 +1,37 @@
 <?php
-require_once "librerias/autoload.php";  
-$token = $_REQUIRE['token']; 
-$subtotalIva = 10.0;
-$iva = 1.20;
-$subtotalIva0 = 5.0;
-$ice = 1.50;
-$amount = new Amount($subtotalIva, $iva, $subtotalIva0, $ice);
-$metadata = array("producto"=>"Ensalada Cesar", "Cantidad"=>"1");
+require_once "librerias/autoload.php";
+use kushki\lib\KushkiLanguage;
+use kushki\lib\Amount;
+use kushki\lib\Kushki;
+use kushki\lib\KushkiEnvironment;
+use kushki\lib\Transaction;
+use kushki\lib\ExtraTaxes;
+use kushki\lib\KushkiCurrency;
 
-$transaccion = $kushki->charge($token, $amount, $metadata);
+
+
+$merchantId = "10000002667856160131150186346335";
+$language = KushkiLanguage::ES;
+$currency = KushkiCurrency::COP; // KushkiCurrency::COP; for Colombia
+$environment = KushkiEnvironment::TESTING;
+
+$kushki = new Kushki($merchantId, $language, $currency, $environment);
+@$token = $_REQUEST['kushkiToken'];
+$subtotalIva = 3200;
+$iva = 608;
+$subtotalIva0 = 0;
+$propina = 10;
+$tasaAeroportuaria = 0;
+$agenciaDeViaje = 0;
+$iac = 0;
+$extraTaxes = new ExtraTaxes($propina, $tasaAeroportuaria, $agenciaDeViaje, $iac);
+$amount = new Amount($subtotalIva, $iva, $subtotalIva0, $extraTaxes);
+$metadata = array("Ensalada"=>"Cesar", "Cantidad"=>"1");
+
+$transaccion = $kushki->charge($token, $amount, $metadata); 
 
 ?>
-?>
+
 <!DOCTYPE html>
 <html lang="en">
      <head>
@@ -25,18 +45,7 @@ $transaccion = $kushki->charge($token, $amount, $metadata);
      <script src="js/jquery.equalheights.js"></script>
      <script src="js/jquery.ui.totop.js"></script>
      <script src="js/jquery.easing.1.3.js"></script>
-	 <script src="https://cdn.kushkipagos.com/kushki-checkout.js"></script>
-     <script>
-        $(document).ready(function(){
-          $( ".block1" ).mouseover(function() {
-            $(this).addClass( "blur" );
-          });
-          $( ".block1" ).mouseout(function() {
-            $(this).removeClass( "blur" );
-          });
-          $().UItoTop({ easingType: 'easeOutQuart' });
-        }) 
-     </script>
+	 <script src="https://cdn.kushkipagos.com/kushki.min.js"></script>
      <!--[if lt IE 8]>
        <div style=' clear: both; text-align:center; position: relative;'>
          <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -82,7 +91,7 @@ $transaccion = $kushki->charge($token, $amount, $metadata);
 
 
 <div class="contenedorKushki">
-	Se ha comprado con exito una ensalada cesar. El código de su compra es: <?php echo $token; ?>
+	Se ha comprado con exito una ensalada cesar. El código de su compra es: 90a9f2d93ba508c38971890454897fd4
 </div>
 
  
@@ -99,27 +108,5 @@ $transaccion = $kushki->charge($token, $amount, $metadata);
     </div>
   </div>
 </footer>
-     <script>
-      $(document).ready(function(){ 
-         $(".bt-menu-trigger").toggle( 
-          function(){
-            $('.bt-menu').addClass('bt-menu-open'); 
-          }, 
-          function(){
-            $('.bt-menu').removeClass('bt-menu-open'); 
-          } 
-        ); 
-      }) 
-    </script>
-	<script type="text/javascript">
-    var kushki = new KushkiCheckout({
-        form: "kushki-pay-form",
-        merchant_id: "10000001641125237535111218",
-        amount: "$29.35",
-        currency: "USD", 
-        is_subscription: false, // Optional 
-      	regional:false // Optional
-    });
-</script>
 </body>
 </html>

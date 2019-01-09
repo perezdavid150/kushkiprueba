@@ -23,6 +23,7 @@
           $().UItoTop({ easingType: 'easeOutQuart' });
         }) 
      </script>
+
      <!--[if lt IE 8]>
        <div style=' clear: both; text-align:center; position: relative;'>
          <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
@@ -126,15 +127,22 @@
       }) 
     </script>
 	<script type="text/javascript">
-    var kushki = new KushkiCheckout({
+	
+	
+	var kushki = new KushkiCheckout({
         form: "kushki-pay-form",
-        merchant_id: "10000001641125237535111218",
+        merchant_id: "10000002667885476032150186346335",
         amount: "$29.35",
-        currency: "USD", 
-        is_subscription: false, // Optional 
-      	regional:false, // Optional
-		callback_url: "localhost/indexBackend.html"
+        currency: "COP", 
+	    payment_methods:["credit-card"] , // Payments Methods enabled in this case will be card and transfer 
+        is_subscription: false, // Optional
+      	inTestEnvironment: true,  // Optional
+      	callback_url: "localhost/indexBackend.php", // Only if transfer payment method is added in payment_methods   
+      	regional:false // Optional
     });
+	
+	
+    
 </script>
 </body>
 </html>
